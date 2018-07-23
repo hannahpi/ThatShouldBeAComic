@@ -1,32 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
-<html xmlns="http://www.w3.org/1999/xhtml"> 
-<!--- header and style definitions --> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!--- header and style definitions -->
 <title>Report a problem/bug - ThatShouldBeAComic.com</title>
 <head>
 <!--[if lt IE 9]>
     <script src="http://www.dreamreign.com/include/excanvas.js"></script>
 <![endif]-->
 <link rel="stylesheet" type="text/css" href="thatshouldbeacomic.css" />
-<script type="text/javascript">
-
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-25075932-1']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script>
 </head>
 
-<script type="text/javascript"> 
+<script type="text/javascript">
 function loadData(div, url)
 {
 	var XMLHTTP= XMLHttpRequest || ActiveXObject("Microsoft.XMLHTTP");
-	if (typeof XMLHTTP!= "undefined" ) 
+	if (typeof XMLHTTP!= "undefined" )
 	{
 		var xmlhttp = new XMLHTTP;
 		xmlhttp.onreadystatechange= function() {
@@ -34,7 +21,7 @@ function loadData(div, url)
 			{
 				var resp = xmlhttp.responseText;
 				document.getElementById(div).innerHTML= resp;
-			}			
+			}
 		}
 		xmlhttp.open("GET", url , true);
 		xmlhttp.send(null);
@@ -43,7 +30,7 @@ function loadData(div, url)
 		alert("Your browser doesn't seem to support ajax");
 }
 
-//Get Comments 
+//Get Comments
 function getComments()
 {
 	loadData("comments","getcomments.php?imgID=45");
@@ -55,10 +42,10 @@ function addComment()
 }
 
 function init()
-{	
+{
 	getComments();
 }
- 
+
 window.onload=function(){
 	init();
 }
