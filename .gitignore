@@ -1,0 +1,5 @@
+.gitignore
+/cimage/*
+/images/*
+/users/*
+config.php
