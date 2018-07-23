@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<!--- header and style definitions --> 
+<title>ThatShouldBeAComic.com</title>
+<head>
+<!--[if lt IE 9]>
+    <script src="http://www.dreamreign.com/include/excanvas.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="thatshouldbeacomic.css" />
+</head>
+
+<script type="text/javascript"> 
+//Get Comments 
+function getComments()
+{
+	var XMLHTTP= XMLHttpRequest || ActiveXObject("Microsoft.XMLHTTP");
+	if (typeof XMLHTTP!= "undefined" ) 
+	{
+		var xmlhttp = new XMLHTTP;
+		xmlhttp.onreadystatechange= function() {
+			if(xmlhttp.readyState== 4) //4 is recv'd all responses
+			{
+				var resp = xmlhttp.responseText;
+				document.getElementById("comments").innerHTML= resp;
+			}			
+		}
+		xmlhttp.open("GET", "http://www.thatshouldbeacomic.com/new/getcomments.php?fileName=update&order=desc", true);
+		xmlhttp.send(null);
+	}
+	else
+		alert("Your browser doesn't seem to support ajax");
+}
+
+function init()
+{	
+	getComments();
+}
+ 
+window.onload=function(){
+	init();
+}
+</script>
+
+<div id="comments">
+</div>
+<button type="button" id="addComment" onclick="location.href='addcomment.php?fileName=update'">+</button>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<script type="text/javascript" src="phpget.js"></script>
+<!--menu-->
+<div class="mainmenu">
+<div id="temp">
+</div>
+<div id="addcomment">
+</div>
+<area shape="rect" coords="128,132,238,177" alt="Comics" id="selComic" href="comics.php" onMouseOver="changeMap(1)" onMouseOut="changeMap(0)" >
+     <area shape="rect" coords="271,132,475,177" alt="Illustrations" id="selIllus" href="viewSeries.php?series=gillu">
+     <area shape="rect" coords="509,132,625,177" alt="Artists" id="selArtists" href="viewUsers.php">
+<!--	 <area shape="rect" coords="167,685,264,724" alt="Miranda" id="selMiranda" href="userView.php?display=miranda" onMouseOver="changeMap(2)" onMouseOut="changeMap(0)">
+	 <area shape="rect" coords="346,685,418,724" alt="Kara" id="selKara" href="userView.php?display=kara" onMouseOver="changeMap(3)" onMouseOut="changeMap(0)"> -->
+	 <area shape="rect" coords="458,685,542,724" alt="Jessie" id="selJessie" href="userView.php?display=smithyisspiffy" onMouseOver="changeMap(4)" onMouseOut="changeMap(0)">
+	 <area shape="rect" coords="593,685,647,724" alt="Allie" id="selAllie" href="ally.php" onMouseOver="changeMap(5)" onMouseOut="changeMap(0)">
+	 <area shape="rect" coords="744,685,833,724" alt="Comics" id="selComic2" href="comics.php" onMouseOver="changeMap(1)" onMouseOut="changeMap(0)">
+<ul id="menu-bar">
+ <!--<li><a href="#">Pages</a></li>
+  <ul>
+    <li><a href="viewSeries.php?series=gillu">Illustrations </a> </li>
+	<li><a href="comics.php">Comics </a> </li>
+	<li><a href="viewUsers.php">Artists </a> </li>
+	<li><a href="userView.php?display=smithyisspiffy">Jessie </a> </li>
+	<li><a href="ally.php">Allie </a> </li>
+	<li><a href="updates.php">Updates </a> </li>
+	<!--<li><a href="userView.php?display=miranda"> Miranda </a> </li>
+        <a href="userView.php?display=kara"> Kara </a> </li>   	
+   </ul> -->
+    <?php if ($email) echo "<!--";?> 
+		<li><a href="#" id="btnLogin" onclick="login()" alt="Log me in!">Login</a></li>
+		   
+				<li><a href="adduser.php" id="btnAddUser">Register</a> </li>
+				<li><a href="getconfirm.php">Forgot Password</a> </li>
+			
+	<?php if ($email) echo "-->";?>
+	<?php if (!($email)) echo "<!--";?>	
+			<li><a href="edituser.php" id="btnEditAccount">My Account</a> </li>
+			
+			    <li><a href="inbox.php" id="btnInbox">Inbox</a> </li>
+				<li><a href="logout.php" id="btnLogout">Logout</a> </li>
+				<li><a href="fileselect.php" id="btnUpload">Upload </a> </li>
+			
+			<li><a href="#" onclick="addIdea()" id="btnTSBAC">Request</a> </li>
+			<li><a href="#" onclick="lick()" id="btnLick">Lick!</a> </li>
+			<li><a href="#" onclick="addComment()" id="commentClick">Comment</a></li>
+	<?php if (!($email)) echo "-->";?>
+ <li><a href="#" onclick="addBug()" id="btnAddBug">Report Bug</a> </li>
+ <!--<li><a href="#">Products</a>
+  <ul>
+   <li><a href="#">Products Sub Menu 1</a></li>
+   <li><a href="#">Products Sub Menu 2</a></li>
+   <li><a href="#">Products Sub Menu 3</a></li>
+   <li><a href="#">Products Sub Menu 4</a></li>
+  </ul>
+ </li>
+ <li><a href="#">Services</a>
+  <ul>
+   <li><a href="#">Services Sub Menu 1</a></li>
+   <li><a href="#">Services Sub Menu 2</a></li>
+   <li><a href="#">Services Sub Menu 3</a></li>
+   <li><a href="#">Services Sub Menu 4</a></li>
+  </ul>
+ </li>
+ <li><a href="#">About</a></li>
+ <li><a href="#">Contact Us</a></li>-->
+</ul>
+</div> 
+<!--menu-->

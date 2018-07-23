@@ -1,0 +1,22 @@
+<!-- buttons-->
+<div class="mainmenu">
+<div id="addcomment">
+</div>
+<div id="temp">
+</div>
+<table>
+<tr>
+	<td><button type="button" id="btnTSBAC" onclick="addIdea()" title="That should be a comic!! I have an idea!" alt="That should be a comic!! I have an idea!">TSBAC</button></td>
+	<td><button type="button" id="btnUpdate" onclick="location.href='updates.html'" title="View updates" alt="View updates">Updates</button></td>
+	<?php if ($email) echo "<!--";?><td><button type="button" id="btnAddUser" onclick="location.href='adduser.php'" title="Sign me up!" alt="Sign me up!">Register</button></td><?php if ($email) echo "-->";?>	
+	<?php if (!($email)) echo "<!--";?><td><button type="button" id="btnEditAccount" onclick="location.href='edituser.php'" title="Edit Account" alt="Edit Your Account Info">Account</button></td><?php if (!($email)) echo "-->";?>
+</tr>
+<tr>	
+	<?php if ($email) echo "<!--";?><td><button type="button" id="btnLogin" onclick="login()" title="Log me in!" alt="Log me in!">Login</button></td><?php if ($email) echo "-->";?>	
+	<?php if (!($email)) echo "<!--";?><td><button type="button" id="btnLogout" onclick="location.href='logout.php'" title="Log out" alt="Log out">Logout</button></td><?php if (!($email)) echo "-->";?>
+	<?php if (!($email)) echo "<!--";?><td><button type="button" id="btnUpload" onclick="location.href='fileselect.php'" title="Upload" alt="Upload">Upload</button></td><?php if (!($email)) echo "-->";?>
+	<td><button type="button" id="btnShowRecent" onclick="showRecent()" title="Show Recent comments!" alt="Show Recent comments!">Recent</button></td>
+	<td><button type="button" id="btnAddBug" onclick="addBug()" title="Report a bug" alt="Report a bug">Feedback</button></td>
+</tr>
+</table>
+</div> <!--end mainmenu-->

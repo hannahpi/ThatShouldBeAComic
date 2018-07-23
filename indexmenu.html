@@ -1,0 +1,35 @@
+<script type="text/javascript" src="phpget.js"></script>
+<!-- buttons-->
+<div class="mainmenu">
+<div id="addcomment">
+</div>
+<div id="temp">
+</div>
+<ul id="menu-bar">
+ <!--<li><a href="#">Pages</a>
+  <ul>
+    <li><a href="viewSeries.php?series=gillu">Illustrations </a> </li>
+	<li><a href="comics.php">Comics </a> </li>
+	<li><a href="viewUsers.php">Artists </a> </li>
+	<li><a href="userView.php?display=smithyisspiffy">Jessie </a> </li>
+	<li><a href="ally.php">Allie </a> </li>
+	<li><a href="updates.php">Updates </a> </li> -->
+	<!--<li><a href="userView.php?display=miranda"> Miranda </a> </li>
+        <a href="userView.php?display=kara"> Kara </a> </li>   	-->
+  <!-- </ul></li>-->
+    <?php if (isset ($email)) echo "<!--";?>
+		<li><a href="#" id="btnLogin" onclick="login()" alt="Log me in!">Login</a></li>
+				<li><a href="adduser.php" id="btnAddUser">Register</a> </li>
+				<li><a href="getconfirm.php">Forgot Password</a> </li>
+
+
+	<?php if ($email) echo "-->";?>
+	<?php if (!isset($email)) echo "<!--";?>
+			<li><a href="edituser.php" id="btnEditAccount">My Account</a> </li>
+			    <li><a href="inbox.php" id="btnInbox">Inbox</a> </li>
+				<li><a href="logout.php" id="btnLogout">Logout</a> </li>
+				<li><a href="fileselect.php" id="btnUpload">Upload </a> </li>
+			<li><a href="#" onclick="addIdea()" id="btnTSBAC">Request</a> </li>
+	<?php if (!($email)) echo "-->";?>
+ <li><a href="#" onclick="addBug()" id="btnAddBug">Feedback</a> </li>
+</div> <!--end mainmenu-->

@@ -1,0 +1,206 @@
+<title>ThatShouldBeAComic.com</title>
+<!--[if lt IE 9]>
+    <script src="http://www.dreamreign.com/include/excanvas.js"></script>
+<![endif]-->
+<script src="images/getimages.php"></script>
+<body>
+<h3 style="text-align: center;">ThatShouldBeAComic.com</h3>
+<div align="center">
+<canvas id="canvas" name="canvas"> </canvas>
+</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script>
+//Script found @ http://www.javascriptkit.com/javatutors/externalphp2.shtml
+var cview;                         //Canvas Viewer
+var canvas;                        //Canvas
+var curimg = 0;                    //Initialize counter for array.
+var picRedSize = 90;               //Percent of reduced size as whole number for %
+var startx=0;
+var starty=0;
+var cwidth=630;
+var cheight=460;
+var resizeTimeoutId;
+var imageWidth;
+var imageHeight;
+var cscale = 1.0;
+
+
+//Function to go to next image in picture viewer (basically a go to next image function) this is looped by the setInterval later.
+//Author: unknown (JavaScriptKit)
+//Edited: Ben Parker - rewrote if statement.  I think it's easier to read without the short-hand method.
+
+//go to newer (first is newest)
+function nextimage(){
+	if (curimg < galleryarray.length-1)   //check to see if we are at the end of the array
+	{   
+		curimg++; 
+		document.getElementById("btnFirst").disabled=false;
+		document.getElementById("btnPrev").disabled=false;
+	} 
+	prepareImage();
+	if (curimg == galleryarray.length-1)
+	{
+		document.getElementById("btnLast").disabled=true;
+		document.getElementById("btnNext").disabled=true;
+	}
+	
+}
+
+//go to older (last is oldest)
+function previmage() {	
+	if (curimg > 0)
+	{   
+		curimg--; 
+		document.getElementById("btnLast").disabled=false;
+		document.getElementById("btnNext").disabled=false;
+	}
+	prepareImage();
+	if (curimg == 0)
+	{
+		document.getElementById("btnFirst").disabled=true;
+		document.getElementById("btnPrev").disabled=true;
+	}
+}
+
+//Most recent image
+function firstimage() {
+	curimg = 0;
+	prepareImage();	
+	document.getElementById("btnFirst").disabled=true;
+	document.getElementById("btnPrev").disabled=true;
+	document.getElementById("btnLast").disabled=false;
+	document.getElementById("btnNext").disabled=false;
+}
+
+function prepareImage()
+{
+	imageWidth= galleryarray[curimg].width ;
+	imageHeight= galleryarray[curimg].height ;
+	var hscale = cheight / imageHeight;
+	var wscale = cwidth / imageWidth;
+	if (hscale < wscale)
+	{
+		cscale = hscale* (picRedSize / 100.0);
+	}
+	else
+	{
+		cscale = wscale * (picRedSize / 100.0);
+	}
+	
+	imageHeight = Math.floor(imageHeight * cscale);
+	imageWidth = Math.floor(imageWidth * cscale);
+	cview.clearRect(startx,starty,cwidth,cheight);
+	startx=(cwidth/2)-(imageWidth/2);
+	cview.drawImage(galleryarray[curimg],startx,starty,imageWidth,imageHeight);
+}
+
+//Oldest image
+function lastimage() {
+	curimg = galleryarray.length-1;	
+	prepareImage();
+	document.getElementById("btnLast").disabled=true;
+	document.getElementById("btnNext").disabled=true;
+	document.getElementById("btnFirst").disabled=false;
+	document.getElementById("btnPrev").disabled=false;
+}	
+
+function setcheight()
+{
+	var maxheight=0;
+	var maxIndex=-1;
+	for (var i=0; i<galleryarray.length; i++)
+	{
+		if (maxheight < galleryarray[i].height)
+		{
+			maxheight = galleryarray[i].height;
+			maxIndex= i;
+		}		
+	}
+	alert("Maximum Height: " + maxheight);
+	cheight = maxheight;
+}
+
+function setsize()
+{
+	//Info can be found at: http://www.javascripter.net/faq/browserw.htm
+	if (document.body && document.body.offsetWidth) {
+	 cwidth = document.body.offsetWidth;
+	 cheight = document.body.offsetHeight;
+	}
+	if (document.compatMode=='CSS1Compat' &&
+	    document.documentElement &&
+	    document.documentElement.offsetWidth ) {
+	 cwidth = document.documentElement.offsetWidth;
+	 cheight = document.documentElement.offsetHeight;
+	}
+	if (window.innerWidth && window.innerHeight) {
+	 cwidth = window.innerWidth;
+	 cheight = window.innerHeight;
+	}
+	canvas.setAttribute('height',cheight);
+	canvas.setAttribute('width', cwidth);
+}
+
+function canvasonclick(e)
+{
+    	var x;
+    	var y;
+    	if (e.pageX != undefined && e.pageY != undefined) {
+		x = e.pageX;
+		y = e.pageY;
+    	}
+	else {
+		x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+		y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+    	}
+    	x -= canvas.offsetLeft;
+    	y -= canvas.offsetTop;
+    	x -= startx;
+    	if ((x>=0)&&(x<=imageWidth)&&(y<=imageHeight)&&(y>=0))
+    	{
+		alert("x: " + x + " y : " + y +"\nThis translates to on original\n" + " x: " + Math.floor(x/cscale) + " y: " + Math.floor(y/cscale));
+		
+	}
+}
+
+function init()
+{	
+	//Create canvas to draw image to:
+	canvas = document.getElementById('canvas');
+	setsize();
+	if (canvas.addEventListener)
+	{	canvas.addEventListener("click", canvasonclick, false) }
+	else
+	{	canvas.attachEvent("onclick", canvasonclick ); }
+	cview = canvas.getContext("2d");		
+
+	//Draw initial image:
+	lastimage();		
+}
+
+window.onload=function(){
+ init();
+}
+
+//You'll probably want to remove this following line if you want to just use the viewer
+//writeimages();
+</script>
+
+<div align="center">
+<!--<img id="viewer" src="images/gildabeast.jpg" height="80%" /> -->
+<p>
+<button type="button" id="btnFirst" onclick="firstimage()">|<<</button>
+<button type="button" id="btnPrev" onclick="previmage()"><<</button>
+<button type="button" id="btnNext" onclick="nextimage()">>></button>
+<button type="button" id="btnLast" onclick="lastimage()">>>|</button>
+</div>
+</p>
+<br>
+<br>
+<div align="center">
+[ <a href="credits.html">Programming Credits</a> | <a href="showall.html">Show All</a> ]
+</div>
+<br>
+<br>
+</body>
+</html>

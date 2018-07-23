@@ -1,0 +1,112 @@
+<title>ThatShouldBeAComic.com</title>
+<h3>ThatShouldBeAComic.com</h3>
+<body>
+<script src="images/getimages.php"></script>
+<script type="text/javascript">
+//Script found @ http://www.javascriptkit.com/javatutors/externalphp2.shtml
+var curimg = 0;                    //Initialize counter for array.
+var picRoot = "/images/";          //EDIT to your directory (note that the " are not literally in this string)
+var picRedSize = 92                //Percent of reduced size as whole number for %
+var widthStr = picRedSize + "%";
+
+//Function to go to next image in picture viewer (basically a go to next image function) this is looped by the setInterval later.
+//Author: unknown (JavaScriptKit)
+//Edited: Ben Parker - rewrote if statement.  I think it's easier to read without the shorthand method.
+function previmage(){
+	if (curimg < galleryarray.length-1)   //check to see if we are at the end of the array
+	{   curimg++; } 
+	document.getElementById("viewer").src=galleryarray[curimg].src;
+}
+
+function nextimage() {	
+	if (curimg > 0)
+	{   curimg--; }
+	document.getElementById("viewer").src=galleryarray[curimg].src;
+}
+
+function lastimage() {
+	curimg = 0;
+	document.getElementById("viewer").src=galleryarray[curimg].src;
+}
+
+function firstimage() {
+	curimg = galleryarray.length-1;
+	document.getElementById("viewer").src=galleryarray[curimg].src;
+}	
+
+function updatesize() {
+	var elId = galleryarray[curimg].id;
+	if (curimg < galleryarray.length-1)   //check to see if we are at the end of the array, if so go back to beginning. (rewrote for readability)
+	{ curimg++; } 
+	else
+	{ curimg = 0; }
+	var curWidth = parseFloat(document.getElementById(elId).width);
+	var toWidth = Math.floor(parseFloat(picRedSize/100 * document.documentElement.clientWidth));
+	//Needs to scale down
+	if (curWidth > toWidth) 
+	{  
+		document.getElementById(elId).width= toWidth;
+	}
+	else //curWidth < reduced size see if 
+	{
+		if ((curWidth < gallery[curimg].width) && (gallery[curimg].width > goalwidth ))
+		{
+			document.getElementById(elId).width = toWidth;
+		}
+	}
+}
+
+//writeimages() : a function that uses getimages.php's results to show all images and resize to 92% width.
+//Author:Ben Parker
+//Version: 0.1  01/09/2011 Debugging lines are still in it.
+function writeimages() {
+    for (var i=0; i<=galleryarray.length-1; i++)
+	{
+		document.write("\n<br><br> ---------- " + document.documentElement.clientWidth + " x " + document.documentElement.clientHeight + " -- " + galleryarray[i].height + " x " + galleryarray[i].width );
+		document.write("\n <br><br><b>" + galleryarray[i].id + " </b>");
+		document.write("\n<p><a href=\""+ galleryarray[i].src + "\"> <img src=\"" + galleryarray[i].src + "\" id=\"" + galleryarray[i].id + "\"></a>");
+		
+		//Rewrite:
+		elId = galleryarray[i].id;
+		var curWidth = parseFloat(document.getElementById(elId).width);
+		if (curWidth > (picRedSize/100 * document.documentElement.clientWidth)) 
+		{  
+			var toWidth = Math.floor(picRedSize/100 * document.documentElement.clientWidth);
+			document.getElementById(elId).width= toWidth;
+		}
+		//document.writeln("<br><br> ---------- " + document.documentElement.clientWidth + " -- " + window.innerWidth + " ----" );
+		//document.writeln("<br> " + elId);
+		//document.writeln("<p><a href=\"images/" + galleryarray[i] + "\"> <img src=\"" + picRoot + galleryarray[i] + "\" id=\"" + elId + "\"></a>");
+	}
+}
+
+function init()
+{
+	lastimage();
+	//writeimages();
+	//document.writeln("<br> Number of images: "+ galleryarray.length);
+	//setInterval("updatesize()", 2000);  // Change to on resize event
+}
+
+window.onload=function(){
+ init();
+}
+
+
+//You'll probably want to remove this following line if you want to just use the viewer
+//writeimages();
+</script>
+<img id="viewer" src="images/gildabeast.jpg" height="80%" /> 
+<p>
+<button type="button" id="btnFirst" onclick="firstimage()">first</button>
+<button type="button" id="btnLast" onclick="lastimage()">last</button>
+<button type="button" id="btnPrev" onclick="previmage()"><<</button>
+<button type="button" id="btnNext" onclick="nextimage()">>></button>
+</p>
+<br>
+<br>
+<a href="credits.html">Programming Credits</a>
+<br>
+<br>
+</body>
+</html>

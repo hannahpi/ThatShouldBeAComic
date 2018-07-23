@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<!--- header and style definitions --> 
+<title>ThatShouldBeAComic.com</title>
+<head>
+<!--[if lt IE 9]>
+    <script src="http://www.dreamreign.com/include/excanvas.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="thatshouldbeacomic.css" />
+<script type="text/javascript" src="jquery/js/jquery-1.6.2.min.js"></script>
+<script type="text/javascript" src="jquery/js/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="phpget.js"></script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-25075932-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</head>
+<script type="text/javascript"> 
+var curimg=0;
+var galleryarray= new Array();
+galleryarray[curimg]= new Image();
+galleryarray[curimg].id = 44;
+
+function init()
+{	
+	getComments();
+}
+ 
+window.onload=function(){
+	init();
+}
+</script>
+
+<div id="comments">
+</div>
+<button type="button" id="addComment" onclick="location.href='addcomment.php?imgID=44'">+</button>
+<button type="button" id="gotoBugs" onclick="location.href='bugs.html'">Go to Bugs!</button>
+</body>
+</html>

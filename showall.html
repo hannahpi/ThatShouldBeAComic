@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!--[if lt IE 9]>
+    <script src="../pictures/tableimages.php"></script>
+<![endif]--> 
+<script src="/images/getimages.php"></script>
+
+<script type="text/javascript">
+//Script found @ http://www.javascriptkit.com/javatutors/externalphp2.shtml
+var curimg = 0;                    //Initialize counter for array.
+var picRoot = "/pictures/";        //EDIT to your directory (note that the " are not literally in this string)
+var picRedSize = 15;               //Percent of reduced size as whole number for %
+var widthStr = picRedSize + "%";
+
+//writeimages() : a function that uses getimages.php's results to show all images and resize to 92% width.
+//Author:Ben Parker
+//Version: 0.1  01/09/2011 Debugging lines are still in it.
+function writeimages() {
+	document.write("\n<link rel=\"stylesheet\" type=\"text/css\" href=\"snydertool.css\" />");
+	document.write("\n<table border=\"2\">");
+	document.write("\n   <thead> Pictures </thead>");
+	document.write("\n   <tbody>");
+	var i;
+	for(var iterRow=1; iterRow<=Math.ceil(galleryarray.length/4.0); iterRow++)
+	{
+		document.write("\n   <tr> ");
+		for(var iterCol=1; iterCol<=4; iterCol++)
+		{
+			i=((iterRow-1)*4+iterCol)-1;
+			if (i < galleryarray.length)
+			{
+				document.write("\n      <td>");
+				try
+				{
+					document.write('<a href="' + galleryarray[i].src + '"> ');
+					document.write("<img src=\"" + galleryarray[i].src + "\" style=\"width: 13em\"/></a></td>");
+				}
+				catch(err)
+				{
+					try
+					{
+						document.write('<a href="' + imgString[i] + '"> ');
+						document.write("<img src=\"" + imgString[i] + "\" style=\"width: 13em\"/></a></td>");
+					}
+					catch(err)
+					{
+						document.write(err + ' occured <a href="http://snydertool.dreamreign.com/pictures/tableimages.php">Try again as php</a>');
+					}
+				}
+			}
+			else 
+			{
+				document.write("\n      <td> </td> ");
+			}			
+		}
+		document.write("\n   </tr> ");				
+	}
+	document.write("\n   </tbody> ");
+	document.write("\n</table> ");
+}
+
+function init()
+{
+	writeimages();
+	document.writeln("<br> Number of images: "+ galleryarray.length);	
+	document.writeln("<div id=\"footer\">");
+    document.writeln("<p>    Copyright &copy; 2011 ThatShouldBeAComic.com");
+    document.writeln("<br /> Designed by Ben Parker </p>");
+}
+
+window.onload=function(){
+	init();
+}
+</script>
+
+<div id="footer">
+<p>    Copyright &copy; 2011 ThatShouldBeAComic.com
+<br /> Designed by Ben Parker </p>
+</div>
+<!--End Footer-->
+</div> <!--endContent-->
+</body>
+</html>

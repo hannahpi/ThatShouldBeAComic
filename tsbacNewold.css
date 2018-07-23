@@ -1,0 +1,255 @@
+body
+{	
+	background-color:#ffffff;
+}
+
+p
+{
+	border-radius: 15px;
+	color:#015DFE;  
+	font-size:1.1em;   
+	background-color:#7EBF9E;
+	background-repeat:no-repeat;
+}
+
+a:link, a:visited { 
+	color:#ffffff;
+	font-weight:bold;
+}
+
+a:link:hover, a:visited:hover {
+	color:#000000;
+	background-color:#DBB84D;
+}
+
+a.lickbutton {
+	display: block;
+	width: 0px;
+	height: 0px;
+	background: url('lickit.jpg') bottom;
+	max-width:200px;
+	max-height:220px;
+}
+
+a.lickbutton:hover {
+	background-position: 0 0;
+}
+
+img {
+	maxWidth:50%;
+}
+
+table { 
+	border-radius: 15px;
+	font-size:1.1em;
+    color:#ffffff;       
+	background-color:#7EBF9E;	
+	padding:20px;
+}
+
+table.imgdesc {
+	position:absolute;
+	bottom:1%;
+	left:40%;
+	border-radius: 15px;
+	font-size:1.1em;
+    color:#ffffff;       
+	background-color:#7EBF9E;	
+	padding:20px;
+	opacity:.7;	
+	visibility: hidden;
+    z-index:50;
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; 
+	filter: alpha(opacity=70);	
+	max-width:240px;
+}
+
+table.bio {
+	border-radius: 0px;
+	font-size:1.1em;
+    color:#ffffff; 
+	background-color:#7EBF9E;
+	-moz-box-shadow: 0 0 5px 5px #888;
+   -webkit-box-shadow: 0 0 5px 5px#888;
+   box-shadow: 0 0 5px 5px #888;
+}
+
+table.bio tr {
+	border-radius: 15px;
+	font-size:1.1em;
+	color:#ffffff;       
+	background-color:#7EBF9E;	
+	padding:20px;
+}
+
+table.imgdesc td{
+	max-width:240px;
+}
+
+table.imgdesc:hover a.lickbutton{ 
+	width: 200px;
+    height: 220px;	
+}
+
+table.imgdesc:hover {
+	opacity:1;
+	-moz-box-shadow: 0 0 5px 5px #888;
+   -webkit-box-shadow: 0 0 5px 5px#888;
+   box-shadow: 0 0 5px 5px #888;
+}
+
+a.comicview:hover table.imgdesc 
+{
+	visibility:visible;	
+}
+
+table.comment {
+	margin-left:20%;
+	margin-right:20%; 
+	padding:5px 20px 5px 15px;	
+	-moz-box-shadow: 0 0 5px 5px #888;
+   -webkit-box-shadow: 0 0 5px 5px#888;
+   box-shadow: 0 0 5px 5px #888;
+	-moz-transition:all 600ms; /* Firefox 4 */
+   -webkit-transition:all 600ms; /* Safari and Chrome */
+   -o-transition:all 600ms; /* Opera */
+   transition:all 600ms; /* Standards support */
+   
+}
+
+table.comment:hover {	
+	color:#000000;	
+	background-color:#ffffff;
+	-moz-box-shadow: 0 0 5px 5px #888;
+   -webkit-box-shadow: 0 0 5px 5px#888;
+   box-shadow: 0 0 5px 5px #888;
+	-moz-transition:all 600ms; /* Firefox 4 */
+   -webkit-transition:all 600ms; /* Safari and Chrome */
+   -o-transition:all 600ms; /* Opera */
+   transition:all 600ms; /* Standards support */
+}
+
+table.lastupdate {
+	font-size:.725em;
+	margin-left:20%;
+	margin-right:20%; 
+	padding:5px 20px 5px 15px;
+	color:#FFFFFF;       
+	background-color:#7EBF9E;	
+	font-weight:bold;
+}
+
+canvas {
+     z-index:1;
+}
+
+span.small
+{
+	font-size:.625em;	
+}
+
+span.desc
+{
+	font-size:.7em;
+	font-weight:bold;
+}
+
+span.username
+{
+	font-size:.625em;	
+	padding:0px 10px 0px 30px;		
+}
+
+span.comments
+{
+	padding:10px 10px 10px 0px;
+	margin-bottom:18px;
+}
+
+table.comment:hover a:link, table.comment:hover a:visited {
+	color:#000000;
+}
+
+table.comment:hover span.username, table.comment:hover span.small {		
+	color:#fe5303;	
+	-moz-transition:all 600ms; /* Firefox 4 */
+   -webkit-transition:all 600ms; /* Safari and Chrome */
+   -o-transition:all 600ms; /* Opera */
+   transition:all 600ms; /* Standards support */
+}
+	
+div.mainmenu  {	
+	position:fixed;		
+	bottom:10px;
+	left:10px;
+	z-index:0;		
+	opacity:.1;		
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=10)"; 		
+	filter: alpha(opacity=10);	
+	-moz-transition:all 750ms; /* Firefox 4 */
+   -webkit-transition:all 750ms; /* Safari and Chrome */
+   -o-transition:all 750ms; /* Opera */
+   transition:all 750ms; /* Standards support */
+}	
+
+div.mainmenu:hover {		
+	opacity:1;		
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: alpha(opacity=100);		
+	z-index:100;
+	-moz-transition:all 750ms; /* Firefox 4 */
+   -webkit-transition:all 750ms; /* Safari and Chrome */
+   -o-transition:all 750ms; /* Opera */
+   transition:all 750ms; /* Standards support */
+}
+
+div.mainmenu table{		
+	color:#015DFE;       		
+	background-color:#7EBF9E;
+	-moz-box-shadow: 0 0 5px 5px #888;
+   -webkit-box-shadow: 0 0 5px 5px#888;
+   box-shadow: 0 0 5px 5px #888;
+	}
+	
+div.mainmenu input {		
+	background-color:#7EBF9E;		
+	color:#ffffff;		
+	font-weight:bold;
+}
+
+div.mainmenu textarea {		
+	background-color:#0000FF;		
+	color:#ffffff;		
+	font-weight:bold;
+}
+
+button {
+	background-color:#000000;		
+	color:#ffffff;		
+	font-weight:bold;
+	width:85px;
+}
+
+button:hover {
+	color:#ffffff;	
+	background-color:#DBB84D;	
+	-moz-transition:all 750ms; /* Firefox 4 */
+   -webkit-transition:all 750ms; /* Safari and Chrome */
+   -o-transition:all 750ms; /* Opera */
+   transition:all 750ms; /* Standards support */
+}
+
+button[disabled] {
+	background-color:#8888ff;		
+	color:#ffffff;		
+	font-weight:bold;
+}
+
+button[disabled]:hover {
+	background-color:#aaaaaa;	
+	color:#111111;	
+	-moz-transition:all 750ms; /* Firefox 4 */
+   -webkit-transition:all 750ms; /* Safari and Chrome */
+   -o-transition:all 750ms; /* Opera */
+   transition:all 750ms; /* Standards support */
+}
