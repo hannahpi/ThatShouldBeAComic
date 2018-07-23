@@ -12,6 +12,8 @@ This project requires:
 - cimage from https://github.com/mosbth/cimage (image resizer, server side)
 - jquery (an older version was used but I'd assume it'd be compatible with the current one as well)
 - excanvas (looks like it's a Google Project from 2006 it may not be relevant now since canvas has more support)
+- mysql database (or the like)
+- webserver with php7 installed
 
 # Issues
 You may submit issues for either this repository or the website.  Please make sure you note which one you are referring to.
