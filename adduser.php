@@ -73,7 +73,7 @@ if ($submit) {
 				{
 					$toSend =
 						"INSERT INTO `User`
-						VALUES (:email, :displayName, :firstName, :lastName, NULL, '1', NULL);";
+						VALUES (:email, :displayName, :firstName, :lastName, NULL, '1', NULL, NULL);";
 						    //dbug helper:
 							$message = "firstName: $firstName \n lastName: $lastName \n displayName: $displayName \n submit: $submit \n email: $email \n
 										passGen: $passGen \n toSend: $toSend \n";

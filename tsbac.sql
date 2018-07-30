@@ -145,6 +145,7 @@ CREATE TABLE IF NOT EXISTS `User` (
   `FirstName` varchar(50) DEFAULT NULL,
   `LastName` varchar(50) DEFAULT NULL,
   `Password` text DEFAULT NULL,
+  `CreationDate` timestamp DEFAULT current_timestamp(),
   `UserLevelID` int(11) DEFAULT 1,
   `UploadPath` text DEFAULT NULL,
   PRIMARY KEY (`Email`),
