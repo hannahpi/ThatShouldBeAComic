@@ -61,7 +61,7 @@ class Image {
 
         $stmt = $this->conn->prepare($query, $this->attributes);
         $stmt->bindValue(":id", $id, PDO::PARAM_INT);
-        $stmt->execute() or $this->debugH->errormail("Unknown", "Get by ID failed", "User Query failed.");
+        $stmt->execute() or $this->debugH->errormail("Unknown", "Get Image by Name failed", "Image Name Query failed.");
         if ($stmt->rowCount()==0)
             return;
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -77,6 +77,7 @@ class Image {
 
     /* getByName
      * returns json of images that match the name.
+     * or an array of image/s that match the name.
      */
     public function getByName($name, $json=true) {
         $query = "SELECT i.ImgID, u.DisplayName, i.FileName, i.Name, i.Date, i.Desc, i.Anonymous, u.UploadPath "
@@ -89,8 +90,30 @@ class Image {
         $stmt->execute() or $this->debugH->errormail("Unknown", "Get by ID failed", "User Query failed.");
         if ($stmt->rowCount()==0)
             return;
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $json ? print_r(json_encode($this->interpretItem($row)), true) : $this->interpretItem($row);
+        else if ($stmt->rowCount()==1) {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($json) {
+                print_r(json_encode($this->interpretItem($row)), true)
+                return;
+            } else {
+                return array($this->interpretItem($row));
+            }
+        } else {
+            $rows = $stmt->fetchAll();
+            foreach ($rows as $row) {
+                if (empty($imageArray)) {
+                    $imageArray = array($this->interpretItem($row))
+                } else {
+                    array_push($userArray, $this->interpretItem($row));
+                }
+            }
+            if ($json) {
+                print_r(json_encode($imageArray));
+                return;
+            } else {
+                return $imageArray;
+            }
+        }
     }
 
     public function getJson($id) {
@@ -101,21 +124,22 @@ class Image {
 
         $stmt = $this->conn->prepare($query, $this->attributes);
         $stmt->bindValue(":id", $id, PDO::PARAM_INT);
-        $stmt->execute() or $this->debugH->errormail("Unknown", "Get by ID failed", "User Query failed.");
+        $stmt->execute() or $this->debugH->errormail("Unknown", "Get Image by ID failed", "Image Query failed.");
         if ($stmt->rowCount()==0)
             return;
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return print_r(json_encode($this->interpretItem($row)), true);
     }
 
-    public function getAllJson() {
+    public function getAllJson($descMatch="") {
         $query = "SELECT i.ImgID, u.DisplayName, i.FileName, i.Name, i.Date, i.Desc, i.Anonymous, u.UploadPath "
                 ."FROM Images i, User u "
-                ." AND Images.UserID = User.UserID ";
+                ." AND i.UserID = u.UserID "
+                ." AND i.Desc LIKE :descMatch ";
 
         $stmt = $this->conn->prepare($query, $this->attributes);
-        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
-        $stmt->execute() or $this->debugH->errormail("Unknown", "Get by ID failed", "User Query failed.");
+        $stmt->bindValue(":descMatch", $descMatch . "%", PDO::PARAM_STR);
+        $stmt->execute() or $this->debugH->errormail("Unknown", "Images All Json", "Image Query failed.");
         if ($stmt->rowCount()==0)
             return;
         $rows = $stmt->fetchAll();

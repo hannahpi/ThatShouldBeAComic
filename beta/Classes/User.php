@@ -85,8 +85,10 @@ class User {
 
     public function setEmail($email) {
         if ($userID) {
-            $this->email = $email;
-            $this->dirty = true;
+            if ($this->email != $email) {
+                $this->email = $email;
+                $this->dirty = true;
+            }
         } else {
             throw new Exception('Set email for an uninitialized ' . get_class($this));
         }
@@ -94,8 +96,10 @@ class User {
 
     public function setDisplayName($displayName) {
         if ($userID) {
-            $this->displayName = $displayName;
-            $this->dirty = true;
+            if ($this->displayName != $displayName) {
+                $this->displayName = $displayName;
+                $this->dirty = true;
+            }
         } else {
             throw new Exception ('Set displayName for an uninitialized ' . get_class($this));
         }
@@ -103,8 +107,10 @@ class User {
 
     public function setFirstName($firstName) {
         if ($userID) {
-            $this->firstName = $firstName;
-            $this->dirty = true;
+            if ($this->firstName != $firstName) {
+                $this->firstName = $firstName;
+                $this->dirty = true;
+            }
         } else {
             throw new Exception ('Set firstName for an uninitialized ' . get_class($this));
         }
@@ -112,8 +118,10 @@ class User {
 
     public function setLastName($lastName) {
         if ($userID) {
-            $this->lastName = $lastName;
-            $this->dirty = true;
+            if ($this->lastName != $lastName) {
+                $this->lastName = $lastName;
+                $this->dirty = true;
+            }
         } else {
             throw new Exception ('Set lastName for an uninitialized ' . get_class($this));
         }
@@ -121,8 +129,10 @@ class User {
 
     public function setPassword($password) {
         if ($userID) {
-            $this->password = md5($password);
-            $this->dirty = true;
+            if ($this->password != $password) {
+                $this->password = md5($password);
+                $this->dirty = true;
+            }
         } else {
             throw new Exception ('Set password for an uninitialized ' . get_class($this));
         }
@@ -130,8 +140,10 @@ class User {
 
     public function setUserLevelID($userLevelID) {
         if ($userID) {
-            $this->userLevelID = $userLevelID;
-            $this->dirty = true;
+            if ($this->userLevelID != $userLevelID) {
+                $this->userLevelID = $userLevelID;
+                $this->dirty = true;
+            }
         } else {
             throw new Exception ('Set userLevelID for an uninitialized ' . get_class($this));
         }
@@ -139,8 +151,10 @@ class User {
 
     public function setCreationDate($creationDate) {
         if ($userID) {
-            $this->creationDate = $creationDate;
-            $this->dirty = true;
+            if ($this->creationDate != $creationDate) {
+                $this->creationDate = $creationDate;
+                $this->dirty = true;
+            }
         } else {
             throw new Exception ('Set creationDate for an uninitialized ' . get_class($this));
         }
@@ -148,8 +162,10 @@ class User {
 
     public function setUploadPath($uploadPath) {
         if ($userID) {
-            $this->uploadPath = $uploadPath;
-            $this->dirty = true;
+            if ($this->uploadPath != $uploadPath) {
+                $this->uploadPath = $uploadPath;
+                $this->dirty = true;
+            }
         } else {
             throw new Exception ('Set uploadPath for an uninitialized ' . get_class($this));
         }

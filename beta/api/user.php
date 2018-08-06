@@ -22,10 +22,40 @@ $debugH->addObject($request);
 $debugH->addObject($myUser);
 
 function update_user($conn, $attributes, $request) {
+    $user = new User($conn, $attributes);
+    if (count($request) % 2 == 0) {
+        for ($i=0; $i<count($request); $i=$i+2) {
+            $userInfo[$request[i]] = strip_tags($request[i+1]);
+        }
+    }
+    if ($userInfo["UserID"]) {
+        $user->getByID($userInfo["UserID"]);
+        $user->setEmail($userInfo["Email"]);
+    } else if ($userInfo["Email"]) {
+        $user->get($userInfo["Email"],false);
+    }
+    $user->setDisplayName($userInfo["DisplayName"]);
+    $user->setFirstName($userInfo["FirstName"]);
+    $user->setLastName($userInfo["LastName"]);
+    $user->setCreationDate($userInfo["CreationDate"]);
+    $user->setUserLevelID($userInfo["UserLevelID"]);
+    $user->setUploadPath($userInfo["UploadPath"]);
+    $user->updateDB();
     print_r($request);
 }
 
 function add_user($conn, $attributes, $request) {
+    $user = new User($conn, $attributes);
+    if (count($request) % 2 == 0) {
+        for ($i=0; $i<count($request); $i=$i+2) {
+            $userInfo[$request[i]] = $request[i+1];
+        }
+    }
+    $email = $userInfo["Email"];
+    $displayName = $userInfo["DisplayName"];
+    $firstName = $userInfo["FirstName"];
+    $lastName = $userInfo["LastName"];
+    $user->createUser($email, $displayName, $firstName, $lastName);
     print_r($request);
 }
 
