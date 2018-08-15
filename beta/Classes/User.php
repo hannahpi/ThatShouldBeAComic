@@ -76,7 +76,7 @@ class User {
         $stmt->bindValue(":userLevelID", $userLevelID, PDO::PARAM_INT);
         $stmt->bindValue(":creationDate", $creationDate, PDO::PARAM_INT);
         $stmt->bindValue(":uploadPath", $uploadPath, PDO::PARAM_STR);
-        $stmt->execute() or $this->debugH->errormail("Unknown", "Create new failed", "Create User Query failed.");
+        $stmt->execute() or $this->debugH->errormail("Unknown", "Create new user failed", "Create User Query failed.");
         if ($stmt->rowCount()==0)
             return;
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -84,7 +84,7 @@ class User {
     }
 
     public function setEmail($email) {
-        if ($userID) {
+        if ($this->userID) {
             if ($this->email != $email) {
                 $this->email = $email;
                 $this->dirty = true;
@@ -95,7 +95,7 @@ class User {
     }
 
     public function setDisplayName($displayName) {
-        if ($userID) {
+        if ($this->userID) {
             if ($this->displayName != $displayName) {
                 $this->displayName = $displayName;
                 $this->dirty = true;
@@ -106,7 +106,7 @@ class User {
     }
 
     public function setFirstName($firstName) {
-        if ($userID) {
+        if ($this->userID) {
             if ($this->firstName != $firstName) {
                 $this->firstName = $firstName;
                 $this->dirty = true;
@@ -117,7 +117,7 @@ class User {
     }
 
     public function setLastName($lastName) {
-        if ($userID) {
+        if ($this->userID) {
             if ($this->lastName != $lastName) {
                 $this->lastName = $lastName;
                 $this->dirty = true;
@@ -128,7 +128,7 @@ class User {
     }
 
     public function setPassword($password) {
-        if ($userID) {
+        if ($this->userID) {
             if ($this->password != $password) {
                 $this->password = md5($password);
                 $this->dirty = true;
@@ -139,7 +139,7 @@ class User {
     }
 
     public function setUserLevelID($userLevelID) {
-        if ($userID) {
+        if ($this->userID) {
             if ($this->userLevelID != $userLevelID) {
                 $this->userLevelID = $userLevelID;
                 $this->dirty = true;
@@ -150,7 +150,7 @@ class User {
     }
 
     public function setCreationDate($creationDate) {
-        if ($userID) {
+        if ($this->userID) {
             if ($this->creationDate != $creationDate) {
                 $this->creationDate = $creationDate;
                 $this->dirty = true;
@@ -161,7 +161,7 @@ class User {
     }
 
     public function setUploadPath($uploadPath) {
-        if ($userID) {
+        if ($this->userID) {
             if ($this->uploadPath != $uploadPath) {
                 $this->uploadPath = $uploadPath;
                 $this->dirty = true;
@@ -171,7 +171,7 @@ class User {
         }
     }
 
-    public function getByID($id) {
+    public function getByID($id, $json=false) {
         $query = "SELECT UserID, Email, DisplayName, FirstName, LastName, Password, UserLevelID, CreationDate, UploadPath "
                . "FROM User "
                . "Where User.UserID = :id ";
@@ -182,15 +182,19 @@ class User {
         if ($stmt->rowCount()==0)
             return;
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        $this->userID = $row["UserID"];
-        $this->email = $row["Email"];
-        $this->displayName = $row["DisplayName"];
-        $this->firstName = $row["FirstName"];
-        $this->lastName = $row["LastName"];
-        $this->creationDate = $row["CreationDate"];
-        $this->password = $row["Password"];
-        $this->userLevelID = $row["UserLevelID"];
-        $this->uploadPath = $row["UploadPath"];
+        if ($json) {
+            return print_r(json_encode($this->interpretItem($row)), true);
+        } else {
+            $this->userID = $row["UserID"];
+            $this->email = $row["Email"];
+            $this->displayName = $row["DisplayName"];
+            $this->firstName = $row["FirstName"];
+            $this->lastName = $row["LastName"];
+            $this->creationDate = $row["CreationDate"];
+            $this->password = $row["Password"];
+            $this->userLevelID = $row["UserLevelID"];
+            $this->uploadPath = $row["UploadPath"];
+        }
     }
 
     public function get($userEmail, $json=true) {
@@ -208,7 +212,7 @@ class User {
         }
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($json) {
-            return print_r(json_encode($this->interpretItem($row)));
+            return print_r(json_encode($this->interpretItem($row)), true);
         } else {
             $this->userID = $row["UserID"];
             $this->email = $row["Email"];
@@ -267,7 +271,7 @@ class User {
                 return json_encode(array("message"=>"already up to date!"));
             else {
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                return print_r(json_encode($this->interpretItem($row)));
+                return print_r(json_encode($this->interpretItem($row)),true);
             }
         } else {
             return json_encode(array("message"=>"no changes found to update!"));

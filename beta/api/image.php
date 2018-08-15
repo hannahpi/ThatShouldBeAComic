@@ -1,16 +1,16 @@
 <?php
-
-<?php
 session_start();
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 require_once '../Classes/DebugHelper.php';
 require_once '../Classes/Image.php';
 require_once '../Classes/Database.php';
+require_once '../config/config.php';
 
 $database = new Database();
 $conn = $database->getConnection();
 $attributes = $database->getAttributes();
+
 
 $myImage = new Image($conn, $attributes);
 if (isset($_SESSION['Email'])) {
@@ -64,23 +64,23 @@ function get_image($conn, $attributes, $request) {
     $image = new Image($conn, $attributes);
     switch (strtolower($request[0])) {
         case "image":
-            $rImage = strip_tags($request[1]);
+            $rImage = str_replace("%20", " ", str_replace("-", " ", strip_tags($request[1])));
             break;
         case "getall":
-            print_r($image->getAllJson());
+            echo $image->getAllJson();
             return;
         case "matchDesc":
-            print_r($image->getAllJson($request[1]));
+            echo $image->getAllJson($request[1]);
             return;
         default:
             $rID = strip_tags($request[0]);
             break;
     }
     if (isset($rID)) {
-        $image->getByID($rID);
-    } else if (isset($rEmail)) {
-        $image->getByName($rImage);
-    } 
+        echo $image->getByID($rID, true);
+    } else if (!empty($rImage)) {
+        echo $image->getByName($rImage);
+    }
 }
 
 
