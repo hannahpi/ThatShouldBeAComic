@@ -73,7 +73,7 @@ function get_user($conn, $attributes, $request) {
             break;
     }
     if (isset($rID)) {
-        echo $user->getByID($rID);
+        echo $user->getByID($rID, true);
     } else if (isset($rEmail)) {
         echo $user->get($rEmail);
     }
