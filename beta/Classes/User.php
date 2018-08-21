@@ -41,17 +41,32 @@ class User {
     public function __construct($conn, $attributes) {
         $this->attributes = $attributes;
         $this->conn = $conn;
-        $this->debugH = new DebugHelper();
+        $this->debugH = new DebugHelper(true);
         $this->debugH->addObject($this);
         $this->dirty = false;
     }
 
-    public function createNew($email, $displayName, $firstName, $lastName,
-        $userLevelID=1, $userID=NULL, $creationDate=NULL, $uploadPath=NULL ) {  //password is generated
-        $query = " INSERT INTO Users (UserID, Email, DisplayName, FirstName, LastName, Password, "
+    public function createNew($email, $displayName, $lastName, $firstName=NULL,
+        $userLevelID=NULL, $userID=NULL, $creationDate=NULL,
+        $uploadPath=NULL ) {  //password is generated
+
+        $this->email = $email;
+        $this->displayName = $displayName;
+        $this->lastName = $lastName;
+        $this->firstName = $firstName;
+        if (empty($userLevelID) || ($userLevelID < $GLOBALS['MIN_USER_LEVEL_LISTED'])) {
+            $this->userLevelID = $GLOBALS['MIN_USER_LEVEL_LISTED'];
+        } else {
+            $this->userLevelID = $userLevelID;
+        }
+        $this->userID = $userID;
+        $this->creationDate = $creationDate;
+        $this->uploadPath = $uploadPath;
+
+        $query = " INSERT INTO User (UserID, Email, DisplayName, FirstName, LastName, Password, "
                 ."  UserLevelID, CreationDate, UploadPath) "
-                ." VALUES (:userID, :email, :displayName, :firstName, :lastName, PASSWORD(:password), "
-                ." :userLevelID, :creationDate, :uploadPath )";
+                ." VALUES (:userID, :email, :displayName, :firstName, :lastName, :password, "
+                ." :userLevelID, :creationDate, :uploadPath ); ";
 
         $passGen = chr(random_int(33,126)); //generate random ascii sequence
         for ($i=1; $i<15; $i++) {
@@ -67,15 +82,15 @@ class User {
         $passGen = md5($passGen);
 
         $stmt = $this->conn->prepare($query, $this->attributes);
-        $stmt->bindValue(":userID", $userID, PDO::PARAM_INT);  //this should be NULL
-        $stmt->bindValue(":email", $email, PDO::PARAM_STR);
-        $stmt->bindValue(":displayName", $displayName, PDO::PARAM_STR);
-        $stmt->bindValue(":firstName", $firstName, PDO::PARAM_STR);
-        $stmt->bindValue(":lastName", $lastName, PDO::PARAM_STR);
+        $stmt->bindValue(":userID", $this->userID, PDO::PARAM_INT);  //this should be NULL
+        $stmt->bindValue(":email", $this->email, PDO::PARAM_STR);
+        $stmt->bindValue(":displayName", $this->displayName, PDO::PARAM_STR);
+        $stmt->bindValue(":firstName", $this->firstName, PDO::PARAM_STR);
+        $stmt->bindValue(":lastName", $this->lastName, PDO::PARAM_STR);
         $stmt->bindValue(":password", $passGen, PDO::PARAM_STR);
-        $stmt->bindValue(":userLevelID", $userLevelID, PDO::PARAM_INT);
-        $stmt->bindValue(":creationDate", $creationDate, PDO::PARAM_INT);
-        $stmt->bindValue(":uploadPath", $uploadPath, PDO::PARAM_STR);
+        $stmt->bindValue(":userLevelID", $this->userLevelID, PDO::PARAM_INT);
+        $stmt->bindValue(":creationDate", $this->creationDate, PDO::PARAM_INT);
+        $stmt->bindValue(":uploadPath", $this->uploadPath, PDO::PARAM_STR);
         $stmt->execute() or $this->debugH->errormail("Unknown", "Create new user failed", "Create User Query failed.");
         if ($stmt->rowCount()==0)
             return;

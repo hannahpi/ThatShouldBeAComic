@@ -15,8 +15,8 @@ if (isset($_SESSION['Email'])) {
     $myUser->get($_SESSION['Email'], false);
 }
 $method = $_SERVER['REQUEST_METHOD'];
-$request = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
-$debugH = new DebugHelper();
+$request = $_REQUEST;
+$debugH = new DebugHelper(true);
 $debugH->addObject($method);
 $debugH->addObject($request);
 $debugH->addObject($myUser);
@@ -46,17 +46,13 @@ function update_user($conn, $attributes, $request) {
 
 function add_user($conn, $attributes, $request) {
     $user = new User($conn, $attributes);
-    if (count($request) % 2 == 0) {
-        for ($i=0; $i<count($request); $i=$i+2) {
-            $userInfo[$request[i]] = $request[i+1];
-        }
-    }
+    $userInfo = json_decode(strip_tags($request[0]),true);
     $email = $userInfo["Email"];
     $displayName = $userInfo["DisplayName"];
     $firstName = $userInfo["FirstName"];
     $lastName = $userInfo["LastName"];
-    $user->createUser($email, $displayName, $firstName, $lastName);
-    print_r($request);
+    $user->createNew($email, $displayName, $lastName, $firstName);
+    print_r(json_encode($user));
 }
 
 function get_user($conn, $attributes, $request) {
@@ -88,6 +84,7 @@ switch ($method) {
         add_user($conn, $attributes, $request);
         break;
     case 'GET':
+        $request = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
         get_user($conn, $attributes, $request);
         break;
     default:
