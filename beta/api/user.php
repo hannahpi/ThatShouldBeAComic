@@ -15,7 +15,7 @@ if (isset($_SESSION['Email'])) {
     $myUser->get($_SESSION['Email'], false);
 }
 $method = $_SERVER['REQUEST_METHOD'];
-$request = $_REQUEST;
+$request = file_get_contents('php://input');
 $debugH = new DebugHelper(true);
 $debugH->addObject($method);
 $debugH->addObject($request);
@@ -23,11 +23,9 @@ $debugH->addObject($myUser);
 
 function update_user($conn, $attributes, $request) {
     $user = new User($conn, $attributes);
-    if (count($request) % 2 == 0) {
-        for ($i=0; $i<count($request); $i=$i+2) {
-            $userInfo[$request[i]] = strip_tags($request[i+1]);
-        }
-    }
+    $userInfo = json_decode(strip_tags($request),true);
+
+    //if admin or me
     if ($userInfo["UserID"]) {
         $user->getByID($userInfo["UserID"]);
         $user->setEmail($userInfo["Email"]);
@@ -37,6 +35,8 @@ function update_user($conn, $attributes, $request) {
     $user->setDisplayName($userInfo["DisplayName"]);
     $user->setFirstName($userInfo["FirstName"]);
     $user->setLastName($userInfo["LastName"]);
+    $user->setPassword($userInfo["Password"]);
+    //if admin
     $user->setCreationDate($userInfo["CreationDate"]);
     $user->setUserLevelID($userInfo["UserLevelID"]);
     $user->setUploadPath($userInfo["UploadPath"]);
@@ -46,7 +46,7 @@ function update_user($conn, $attributes, $request) {
 
 function add_user($conn, $attributes, $request) {
     $user = new User($conn, $attributes);
-    $userInfo = json_decode(strip_tags($request[0]),true);
+    $userInfo = json_decode(strip_tags($request),true);
     $email = $userInfo["Email"];
     $displayName = $userInfo["DisplayName"];
     $firstName = $userInfo["FirstName"];

@@ -262,13 +262,14 @@ class User {
     public function updateDB() {
         if (isset($this->userID) && $this->dirty) {
             if (!empty($this->password)) //we don't want the password to be blank!
-                $passQuery = " Password = :password ";
+                $passQuery = " Password = :password ,";
             else
                 $passQuery = "";
-            $query = " Update `User` set Email = :email, DisplayName = :displayName "
+            $query = " Update `User` set Email = :email, DisplayName = :displayName, "
                    . " FirstName = :firstName, LastName = :lastName, $passQuery "
-                   . " UserLevelID = :userLevelID, CreationDate = :creationDate "
-                   . " UploadPath = :uploadPath ";
+                   . " UserLevelID = :userLevelID, CreationDate = :creationDate, "
+                   . " UploadPath = :uploadPath "
+                   . " WHERE `User`.UserID = :userID ;";
 
             $stmt = $this->conn->prepare($query, $this->attributes);
             $stmt->bindValue(":userID", $this->userID, PDO::PARAM_INT);  //this should be NULL
@@ -279,7 +280,7 @@ class User {
             if (!empty($this->password))
                 $stmt->bindValue(":password", $this->password, PDO::PARAM_STR);
             $stmt->bindValue(":userLevelID", $this->userLevelID, PDO::PARAM_INT);
-            $stmt->bindValue(":creationDate", $this->creationDate, PDO::PARAM_INT);
+            $stmt->bindValue(":creationDate", $this->creationDate, PDO::PARAM_STR);
             $stmt->bindValue(":uploadPath", $this->uploadPath, PDO::PARAM_STR);
             $stmt->execute() or $this->debugH->errormail("Unknown", "Update user failed", "Update User Query failed.");
             if ($stmt->rowCount() == 0)
