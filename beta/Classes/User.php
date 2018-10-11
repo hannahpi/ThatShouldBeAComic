@@ -10,6 +10,7 @@ class User {
     private $debugH;
     private $userID; //primary key, no reason to change this.
     private $dirty;
+    private $passVer;
 
     public $email;
     public $displayName;
@@ -19,6 +20,7 @@ class User {
     public $userLevelID;
     public $creationDate;
     public $uploadPath;
+
 
     /**
      * function: interpretItem
@@ -41,7 +43,7 @@ class User {
     public function __construct($conn, $attributes) {
         $this->attributes = $attributes;
         $this->conn = $conn;
-        $this->debugH = new DebugHelper(true);
+        $this->debugH = new DebugHelper();
         $this->debugH->addObject($this);
         $this->dirty = false;
     }
@@ -64,9 +66,9 @@ class User {
         $this->uploadPath = $uploadPath;
 
         $query = " INSERT INTO User (UserID, Email, DisplayName, FirstName, LastName, Password, "
-                ."  UserLevelID, CreationDate, UploadPath) "
+                ." PassVer, UserLevelID, CreationDate, UploadPath) "
                 ." VALUES (:userID, :email, :displayName, :firstName, :lastName, :password, "
-                ." :userLevelID, :creationDate, :uploadPath ); ";
+                ." NULL, :userLevelID, :creationDate, :uploadPath ); ";
 
         $passGen = chr(random_int(33,126)); //generate random ascii sequence
         for ($i=1; $i<15; $i++) {
@@ -79,7 +81,7 @@ class User {
 		$message = "Please confirm your email address at ". $GLOBALS['FQP'] . "/verifyemail.html?confirmNum=$passGen&Email=$email \n"
 		         . "If you have problems you may go back to ". $GLOBALS['FQP'] . "/getconfirm.html and try again!";
 		mail($email,$subject,$message,$headers);
-        $passGen = md5($passGen);
+        $passGen = crypt($passGen);
 
         $stmt = $this->conn->prepare($query, $this->attributes);
         $stmt->bindValue(":userID", $this->userID, PDO::PARAM_INT);  //this should be NULL

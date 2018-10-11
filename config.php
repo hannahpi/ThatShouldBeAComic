@@ -75,9 +75,9 @@ function connect_tsbac() {
 	try {
 		$dbh = new PDO("mysql:host=$hostname;dbname=$db", $username, $password);
 		return $dbh;
-  } catch(PDOException $e) {
-    errormail($email, $e->getMessage(), "No info", $e->getMessage());
-  }
+  	} catch(PDOException $e) {
+    	errormail($email, $e->getMessage(), "No info", $e->getMessage());
+  	}
 }
 
 

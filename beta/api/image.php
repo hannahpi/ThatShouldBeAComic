@@ -17,8 +17,8 @@ if (isset($_SESSION['Email'])) {
     $myUser->get($_SESSION['Email'], false);
 }
 $method = $_SERVER['REQUEST_METHOD'];
-$request = explode("/", substr(@$_SERVER['PATH_INFO'], 1));
-$debugH = new DebugHelper();
+$request = file_get_contents('php://input');
+$debugH = new DebugHelper(true);
 $debugH->addObject($method);
 $debugH->addObject($request);
 $debugH->addObject($myImage);
@@ -47,16 +47,24 @@ function update_image($conn, $attributes, $request) {
 
 function add_image($conn, $attributes, $request) {
     $image = new Image($conn, $attributes);
-    if (count($request) % 2 == 0) {
-        for ($i=0; $i<count($request); $i=$i+2) {
-            $imageInfo[$request[i]] = $request[i+1];
-        }
-    }
-/*    $email = $imageInfo["Email"];
-    $displayName = $imageInfo["DisplayName"];
-    $firstName = $imageInfo["FirstName"];
-    $lastName = $imageInfo["LastName"];
-    $image->createImage($email, $displayName, $firstName, $lastName); */
+    $imageInfo = json_decode(strip_tags($request),true);
+    $userID = $imageInfo["UserID"];
+    $fileName = $imageInfo["FileName"];
+    if (!empty($imageInfo["Name"]))
+        $imageName = $imageInfo["Name"];
+    if (!empty($imageInfo["Tags"]))
+        $desc = "@" . $imageInfo["Tags"];
+    if (!empty($imageInfo["Desc"]))
+        if (empty($desc))
+            $desc = $imageInfo["Desc"];
+        else
+            $desc.= $imageInfo["Desc"];        
+    if (!empty($imageInfo["Date"]))
+        $date = $imageInfo["Date"];
+    if (!empty($imageInfo["Anonymous"]))
+        $anony = $imageInfo["Anonymous"];
+    print_r($imageInfo);
+    $image->createNew($userId, $fileName, $imageName, $desc, $anonymous, $date, $imgID);
     print_r($request);
 }
 

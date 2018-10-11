@@ -55,11 +55,11 @@ class Image {
         $this->debugH->addObject($this);
     }
 
-    public function createNew($userID, $fileName, $imgID=NULL, $name=NULL,
-        $date=NULL, $desc=NULL, $anonymous=false) {
+    public function createNew($userID, $fileName, $name=NULL,
+         $desc=NULL, $anonymous=false, $date=NULL, $imgID=NULL) {
 
         $query = " INSERT INTO Images (UserID, FileName, ImgID, Name, "
-                    ."  Date, Desc, Anonymous ) "
+                    ."  Date, `Desc`, Anonymous ) "
                     ." VALUES (:userID, :fileName, :imgID, :name, "
                     ."  :date, :desc, :anonymous)";
 
@@ -72,6 +72,7 @@ class Image {
         $stmt->bindValue(":desc", $desc, PDO::PARAM_STR);
         $stmt->bindValue(":anonymous", $anonymous, PDO::PARAM_BOOL);
         $stmt->execute() or $this->debugH->errormail("Unknown", "Create new image failed", "Create Image Query failed.");
+
         if ($stmt->rowCount()==0)
             return;
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
